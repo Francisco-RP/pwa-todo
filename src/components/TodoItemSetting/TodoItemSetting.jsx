@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { DateTime } from 'luxon';
 import { useDispatch } from 'react-redux';
-import { addReminder } from 'features/Todo/todoSlice';
+import { addReminder, removeReminder } from 'features/Todo/todoSlice';
 import DatePicker from 'components/DatePicker/DatePicker';
 import styles from 'components/TodoItemSetting/TodoItemSetting.module.css';
-import { createScheduledNotification } from 'helpers/notifications';
+import { createScheduledNotification, cancelScheduledNotification } from 'helpers/notifications';
 
 function TodoItemSetting({ todo }) {
   const { id, title, reminders = [] } = todo;
@@ -52,7 +52,20 @@ function TodoItemSetting({ todo }) {
       {reminders.length > 0 && (
         <ul>
           {reminders.map((r) => (
-            <li key={r.tag}>{r.timestamp}</li>
+            <li key={r.tag}>
+              {r.timestamp}{' '}
+              <button
+                type="button"
+                onClick={() => {
+                  dispatch(removeReminder({ id, tag: r.tag }));
+                  cancelScheduledNotification(r.tag).catch((e) => {
+                    console.error(e);
+                  });
+                }}
+              >
+                x
+              </button>
+            </li>
           ))}
         </ul>
       )}

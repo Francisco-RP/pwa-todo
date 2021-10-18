@@ -40,7 +40,7 @@ function HomePage() {
         <Row>
           <Col>
             <DragDropContext onDragEnd={onDragEnd}>
-              <Droppable droppableId="droppable">
+              <Droppable droppableId="home-list">
                 {(provided) => (
                   <ul
                     {...provided.droppableProps}
@@ -56,6 +56,7 @@ function HomePage() {
                           index={index}
                         />
                       ))}
+                    {provided.placeholder}
                   </ul>
                 )}
               </Droppable>
