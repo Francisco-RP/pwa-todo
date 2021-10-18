@@ -22,7 +22,6 @@ function HomePage() {
   }
 
   function onDragEnd(result) {
-    // dropped outside the list
     if (!result.destination) {
       return;
     }
@@ -30,7 +29,6 @@ function HomePage() {
     dispatch(
       reorder({
         id: result.draggableId,
-        // startIndex: result.source.index,
         endIndex: result.destination.index,
       })
     );

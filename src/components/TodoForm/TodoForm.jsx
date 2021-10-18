@@ -29,7 +29,7 @@ function TodoForm() {
             aria-describedby="basic-addon2"
           />
           <Button type="submit" variant="outline-primary" id="button-addon2">
-            <i class="bi bi-plus" />
+            <i className="bi bi-plus" />
           </Button>
         </InputGroup>
       </form>
