@@ -4,7 +4,7 @@ import TodoItem from './TodoItem';
 
 const { DONE } = TODO_STATUS;
 
-function DraggableTodo({ todo, index }) {
+function DraggableTodo({ todo, index, ...props }) {
   const { id, status } = todo;
 
   const getItemStyle = (isDragging, draggableStyle) => {
@@ -35,6 +35,7 @@ function DraggableTodo({ todo, index }) {
           {...provided.dragHandleProps}
           style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
           todo={todo}
+          {...props}
         />
       )}
     </Draggable>

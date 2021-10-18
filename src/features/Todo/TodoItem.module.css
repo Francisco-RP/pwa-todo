@@ -1,11 +1,11 @@
-.todo-form-check {
+.check {
   display: flex;
   align-items: center;
   justify-content: center ;
   padding-left: 0;
   height: 100%;
 }
-.todo-form-check .form-check-input[type=checkbox] {
+.check input[type=checkbox] {
   border-radius: .25em;
   width: 25px;
   height: 25px;
@@ -13,13 +13,17 @@
   float: none;
 }
 
-.todo-form-control {
+.control {
   border: none;
   background: transparent;
+  font-size: var(--bs-body-font-size);
 }
 
 .grip {
   min-width: 25px;
+}
+.grip i {
+  font-size: 1.2rem;
 }
 
 .grip:hover {
@@ -27,4 +31,8 @@
 }
 .grip:active {
   cursor: grabbing;
+}
+
+.remove i {
+  font-size: var(--bs-body-font-size);
 }

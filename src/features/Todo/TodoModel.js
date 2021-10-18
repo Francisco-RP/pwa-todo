@@ -5,6 +5,13 @@ export const TODO_STATUS = {
   DONE: 'done',
 };
 
+export function createReminder(tag, timestamp) {
+  return {
+    tag,
+    timestamp,
+  };
+}
+
 export function createTodo(title) {
   return {
     id: uuid(),
@@ -12,6 +19,7 @@ export function createTodo(title) {
     status: TODO_STATUS.OPEN,
     created: new Date().toISOString(),
     modified: undefined,
+    reminders: [],
   };
 }
 

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createTodo, modifyTodo, TODO_STATUS } from 'features/Todo/TodoModel';
+import { createTodo, modifyTodo, createReminder, TODO_STATUS } from 'features/Todo/TodoModel';
 
 const initialState = {
   items: [],
@@ -15,8 +15,10 @@ export const todoSlice = createSlice({
 
     updateTodo: (state, action) => {
       const { id, title } = action.payload;
-      const todo = state.items.find(item => id === item.id);
-      modifyTodo(todo, { title });
+      const todo = state.items.find((item) => id === item.id);
+      if (todo) {
+        modifyTodo(todo, { title });
+      }
     },
 
     removeTodo: (state, action) => {
@@ -29,27 +31,61 @@ export const todoSlice = createSlice({
 
     completeTodo: (state, action) => {
       const { payload: id } = action;
-      const todo = state.items.find(item => id === item.id);
-      modifyTodo(todo, { status: TODO_STATUS.DONE });
+      const todo = state.items.find((item) => id === item.id);
+      if (todo) {
+        modifyTodo(todo, { status: TODO_STATUS.DONE });
+      }
     },
 
     openTodo: (state, action) => {
       const { payload: id } = action;
-      const todo = state.items.find(item => id === item.id);
-      modifyTodo(todo, { status: TODO_STATUS.OPEN });
+      const todo = state.items.find((item) => id === item.id);
+      if (todo) {
+        modifyTodo(todo, { status: TODO_STATUS.OPEN });
+      }
     },
 
     reorder: (state, action) => {
       const { id, endIndex } = action.payload;
       const index = state.items.findIndex((todo) => todo.id === id);
-      const [removed] = state.items.splice(index, 1);
-      state.items.splice(endIndex, 0, removed);
+      if (index >= 0) {
+        const [removed] = state.items.splice(index, 1);
+        state.items.splice(endIndex, 0, removed);
+      }
+    },
+
+    addReminder: (state, action) => {
+      const { id, tag, timestamp } = action.payload;
+      const todo = state.items.find((item) => id === item.id);
+      todo.reminders = todo.reminders || [];
+      if (todo) {
+        todo.reminders.push(createReminder(tag, timestamp));
+      }
+    },
+
+    removeReminder: (state, action) => {
+      const { id, tag } = action.payload;
+      const todo = state.items.find((item) => id === item.id);
+      if (todo) {
+        const index = todo.reminders.findIndex((todo) => todo.tag === tag);
+        if (index >= 0) {
+          todo.reminders.splice(index, 1);
+        }
+      }
     },
   },
 });
 
-export const { addTodo, updateTodo, removeTodo, completeTodo, openTodo, reorder } =
-  todoSlice.actions;
+export const {
+  addTodo,
+  updateTodo,
+  removeTodo,
+  completeTodo,
+  openTodo,
+  reorder,
+  addReminder,
+  removeReminder,
+} = todoSlice.actions;
 
 export const selectTodos = (state) => state.todos.present.items;
 

@@ -12,11 +12,13 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist-indexeddb-storage';
 import todoReducer from 'features/Todo/todoSlice';
+import settingsReducer from 'redux/settingsSlice';
 
 const rootReducer = combineReducers({
   todos: undoable(todoReducer, {
     limit: 1,
   }),
+  settings: settingsReducer,
 });
 
 const persistConfig = {

@@ -16,13 +16,13 @@ I created a checklist based on the talk given in this post/video: https://firt.d
 
 - [x] Service worker is registered
 - [x] App Assets are in Cache storage
-- [ ] Using persistent storage like localStorage or IndexedDB
+- [x] Using persistent storage like localStorage or IndexedDB
 - [x] Non-iOS need to request access to persistent storage using: `await navigator.storage.persist()` - [compatibility](https://developer.mozilla.org/en-US/docs/Web/API/StorageManager/persist#browser_compatibility) - see [`requestPersistentStorage` in `helpers/pwa`](src/helpers/pwa.js)
 - [ ] **Android** Icon: add a 512x512 maskable icon. Use https://maskable.app to help
   - [ ] make usre you add `"purpose": "maskable"` in the manifest for that icon (see [below](#android-maskable-icon))
 - [ ] **Safari** - if you are providing only one icon for Apple it should be `180x180` png and non-transparent
 - [x] **Safari** ignores icons in manifest, use: `<link rel="apple-touch-icon" href="" />`
-- [ ] **iOS** Do <u>NOT</u> use the deprecated `<meta name="apple-mobile-web-app-capable" content="yes" />`
+- [x] **iOS** Do <u>NOT</u> use the deprecated `<meta name="apple-mobile-web-app-capable" content="yes" />`
 - [ ] **iOS** Improve installation reliability by preloading manifest and icon. see [`iosReliableInstall` in `helpers/pwa`](src/helpers/pwa.js)
 - [ ] **iOS** - Add a splash screen! See [splash screen section](#splash-screens) below
 - [ ] **Android** - start supporting the Enhanced Installation Banner, [see below](#android-enhanced-installation)
@@ -77,7 +77,9 @@ In order to get this experience you need to have the manifest include:
 
 Resources:
 
-To schedule a local notifcation for later you use a [Notification Triggers](https://web.dev/notification-triggers/)
+To schedule a local notifcation for later you use a Notification Triggers:
+- https://web.dev/notification-triggers/
+- https://css-tricks.com/creating-scheduled-push-notifications/
 
 Create React App's section on PWA support: https://create-react-app.dev/docs/making-a-progressive-web-app
 
