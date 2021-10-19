@@ -30,7 +30,7 @@ function SettingsPage() {
           <Form.Check
             type="switch"
             id="allowNotifications"
-            label="Toggle Allow Notifications"
+            aria-label="Toggle Allow Notifications"
             checked={allSettings.allowNotification}
             onChange={(e) => {
               if (e.target.checked) {

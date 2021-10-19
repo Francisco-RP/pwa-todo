@@ -9,14 +9,12 @@ function DraggableTodo({ todo, index, ...props }) {
 
   const getItemStyle = (isDragging, draggableStyle) => {
     const styles = {
-      // change background colour if dragging
-      background: isDragging ? 'lightgreen' : 'transparent',
-      // styles we need to apply on draggables
       ...draggableStyle,
     };
 
     if (isDragging) {
       styles.userSelect = 'none';
+      styles.border = '1px solid lightgreen'
     }
 
     if (status === DONE) {
