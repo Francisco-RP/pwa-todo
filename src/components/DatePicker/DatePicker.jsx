@@ -9,6 +9,7 @@ function getMinTime() {
 function DatePicker({ required, onTimeAccepted = () => {} }) {
   const [dateVal, setDateVal] = useState('');
   const [validated, setValidated] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -17,6 +18,9 @@ function DatePicker({ required, onTimeAccepted = () => {} }) {
 
     if (form.checkValidity() === true) {
       onTimeAccepted(dateVal);
+      setHasError(false);
+    } else {
+      setHasError(true);
     }
 
     setValidated(true);
@@ -24,33 +28,31 @@ function DatePicker({ required, onTimeAccepted = () => {} }) {
 
   return (
     <Form noValidate validated={validated} onSubmit={handleSubmit}>
+      <Form.Label htmlFor="addNotifcationReminder">Choose a reminder time:</Form.Label>
       <InputGroup>
-        <Form.Group>
-          <Form.Label htmlFor="meeting-time">Choose a reminder time:</Form.Label>
+        <Form.Control
+          required={required}
+          type="datetime-local"
+          id="addNotifcationReminder"
+          name="notifcationReminder"
+          value={dateVal}
+          min={getMinTime()}
+          onChange={(e) => {
+            if (validated) setValidated(false);
+            setDateVal(e.currentTarget.value);
+          }}
+        />
 
-          <Form.Control
-            required={required}
-            type="datetime-local"
-            id="reminder-time"
-            name="reminder-time"
-            value={dateVal}
-            min={getMinTime()}
-            onChange={(e) => {
-              if (validated) setValidated(false);
-              setDateVal(e.currentTarget.value);
-            }}
-          />
-          <Form.Text className="text-muted">You will get a notification</Form.Text>
-          <Form.Control.Feedback type="invalid">
-            {!dateVal ? 'Must not be empty' : 'Time must be in the future'}
-          </Form.Control.Feedback>
-        </Form.Group>
-
-        <Button variant="outline-primary" type="submit">
-          <i className="bi bi-plus" />
+        <Button variant="primary" type="submit">
+          <i className="bi bi-plus-lg" />
           <span className="visually-hidden">add reminder</span>
         </Button>
       </InputGroup>
+      <Form.Text className="text-muted">You will get a notification</Form.Text>
+
+      <Form.Control.Feedback type="invalid" style={{ display: hasError ? 'block' : 'none' }}>
+        {!dateVal ? 'Must not be empty' : 'Time must be in the future'}
+      </Form.Control.Feedback>
     </Form>
   );
 }

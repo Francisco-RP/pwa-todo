@@ -17,6 +17,8 @@
   border: none;
   background: transparent;
   font-size: var(--bs-body-font-size);
+  padding-left: 0;
+  text-overflow: ellipsis;
 }
 
 .grip {
@@ -35,4 +37,33 @@
 
 .remove i {
   font-size: var(--bs-body-font-size);
+}
+
+.fadeIn {
+  animation: fadeIn 500ms ease-in-out
+}
+
+.fadeOut {
+  opacity: 0;
+  animation: fadeOut 250ms ease-in-out
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
 }

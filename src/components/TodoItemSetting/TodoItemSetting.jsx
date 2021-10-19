@@ -37,7 +37,7 @@ function TodoItemSetting({ todo }) {
                   addReminder({
                     id,
                     tag,
-                    timestamp: DateTime.fromISO(time).toMillis(),
+                    timestamp,
                   })
                 );
               } else {

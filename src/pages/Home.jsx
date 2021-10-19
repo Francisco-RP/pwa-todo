@@ -7,7 +7,8 @@ import DraggableTodo from 'features/Todo/DraggableTodo';
 import { TODO_STATUS } from 'features/Todo/TodoModel';
 import { Container, Row, Col } from 'react-bootstrap';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-import TodoForm from 'components/TodoForm/TodoForm';
+import TodoForm from 'components/AddTodoForm/AddTodoForm';
+import SnackBar from 'components/SnackBar/SnackBar';
 const { DONE } = TODO_STATUS;
 
 function HomePage() {
@@ -62,18 +63,20 @@ function HomePage() {
               </Droppable>
             </DragDropContext>
 
+            <TodoForm />
+
             {showUndo && (
-              <div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    dispatch(ActionCreators.undo());
-                    setShowUndo(false);
-                  }}
-                >
-                  undo
-                </button>
-              </div>
+              <SnackBar
+                title="Deleted todo item"
+                actionTitle="undo"
+                action={() => {
+                  dispatch(ActionCreators.undo());
+                  setShowUndo(false);
+                }}
+                onClose={() => {
+                  setShowUndo(false);
+                }}
+              />
             )}
 
             {completed.length > 0 && (
@@ -86,7 +89,6 @@ function HomePage() {
           </Col>
         </Row>
       </Container>
-      <TodoForm />
     </>
   );
 }

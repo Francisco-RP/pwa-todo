@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { removeTodo, completeTodo, openTodo, updateTodo } from 'features/Todo/todoSlice';
 import { TODO_STATUS } from 'features/Todo/TodoModel';
 import TodoItemSetting from 'components/TodoItemSetting/TodoItemSetting';
+import ContentEditable from 'components/ContentEditable';
 import styles from 'features/Todo/TodoItem.module.css';
 
 const { DONE, OPEN } = TODO_STATUS;
@@ -13,22 +14,28 @@ const { DONE, OPEN } = TODO_STATUS;
 function TodoItem({ todo, onDeleteItem = () => {}, ...props }, ref) {
   const { id, title, status } = todo;
   const dispatch = useDispatch();
-  const [text, setText] = useState(title);
   const [showSettings, setShowSettings] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const debouncedUpdate = debounce((title) => {
     dispatch(updateTodo({ id, title }));
-  }, 500);
+  }, 1000);
 
   function onChange(e) {
-    setText(e.target.value);
-    debouncedUpdate(e.target.value);
+    debouncedUpdate(e.currentTarget.textContent);
   }
 
   const isDone = status === DONE;
 
   return (
-    <Row ref={ref} {...props} as="li" className="gx-0 mb-1">
+    <Row
+      ref={ref}
+      {...props}
+      as="li"
+      className={classNames('gx-0 mb-1', styles.fadeIn, {
+        [styles.fadeOut]: isDeleting,
+      })}
+    >
       {status === OPEN && (
         <Col xs="auto" className={`align-items-center d-flex ${styles.grip}`}>
           <i className="bi bi-grip-vertical" />
@@ -54,21 +61,17 @@ function TodoItem({ todo, onDeleteItem = () => {}, ...props }, ref) {
       </Col>
       <Col>
         <InputGroup>
-          <Form.Group controlId={`todo-input-${id}`} className="flex-fill">
-            <Form.Label visuallyHidden>Todo text</Form.Label>
-            <Form.Control
-              disabled={isDone}
-              className={classNames(styles.control, {
-                'text-muted text-decoration-line-through': isDone,
-              })}
-              type="text"
-              value={text}
-              onChange={onChange}
-            />
-          </Form.Group>
+          <ContentEditable
+            onChange={onChange}
+            className={classNames(styles.control, 'form-control', {
+              'text-muted text-decoration-line-through': isDone,
+            })}
+            text={title}
+          />
+
           {!isDone && (
             <Button
-              variant="light"
+              variant="link"
               onClick={() => {
                 setShowSettings(!showSettings);
               }}
@@ -78,10 +81,13 @@ function TodoItem({ todo, onDeleteItem = () => {}, ...props }, ref) {
           )}
           <Button
             className={styles.remove}
-            variant="outline-danger"
+            variant="link"
             onClick={() => {
-              dispatch(removeTodo(id));
+              setIsDeleting(true);
               onDeleteItem(id);
+              setTimeout(() => {
+                dispatch(removeTodo(id));
+              }, 500);
             }}
           >
             <i className="bi bi-trash" />
