@@ -30,11 +30,11 @@ function App() {
     createScheduledNotification(tempTag, 'test scheduled reminder', timestamp)
       .then(() => {
         cancelScheduledNotification(tempTag).catch(console.error);
-        dispatch(updateSimpleSetting({ settingsKey: 'supportsNotifications', value: true }));
+        dispatch(updateSimpleSetting({ settingsKey: 'allowNotification', value: true }));
       })
       .catch((e) => {
-        console.error(e);
-        dispatch(updateSimpleSetting({ settingsKey: 'supportsNotifications', value: false }));
+        console.error('App.js', e);
+        dispatch(updateSimpleSetting({ settingsKey: 'allowNotification', value: false }));
       });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

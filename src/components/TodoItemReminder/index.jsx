@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
 import { DateTime } from 'luxon';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addReminder, removeReminder } from 'features/Todo/todoSlice';
-import { updateSimpleSetting, selectAllowNotifications } from 'redux/settingsSlice';
+import { selectAllowNotifications } from 'redux/settingsSlice';
 import Button from 'react-bootstrap/Button';
 import DatePicker from 'components/DatePicker/DatePicker';
 import { createScheduledNotification, cancelScheduledNotification } from 'helpers/notifications';
@@ -14,24 +14,14 @@ function TodoItemReminder({ todo }) {
   const dispatch = useDispatch();
   const allowed = useSelector(selectAllowNotifications);
 
-  useEffect(() => {
-    Notification.requestPermission()
-      .then((permission) => {
-        dispatch(
-          updateSimpleSetting({
-            settingsKey: 'allowNotification',
-            value: permission === 'granted',
-          })
-        );
-      })
-      .catch(console.error);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   if (!allowed) {
-    <div className={styles.settingsWrap}>
-      <p>Notifications have been disabled</p>
-    </div>;
+    return (
+      <div className={styles.settingsWrap}>
+        <p>
+          Notifications have been disabled. Enable them in <Link to="/settings">settings</Link>
+        </p>
+      </div>
+    );
   }
 
   return (
