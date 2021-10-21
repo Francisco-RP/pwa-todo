@@ -48,7 +48,6 @@ function DatePicker({ required, onTimeAccepted = () => {} }) {
           <span className="visually-hidden">add reminder</span>
         </Button>
       </InputGroup>
-      <Form.Text className="text-muted">You will get a notification</Form.Text>
 
       <Form.Control.Feedback type="invalid" style={{ display: hasError ? 'block' : 'none' }}>
         {!dateVal ? 'Must not be empty' : 'Time must be in the future'}

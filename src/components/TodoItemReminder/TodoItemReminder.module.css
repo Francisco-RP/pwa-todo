@@ -1,0 +1,17 @@
+.settingsWrap {
+  padding: 1rem;
+  background-color: lightgrey;
+  border-radius: 0 0 6px 6px;
+  margin-top: 4px;
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
