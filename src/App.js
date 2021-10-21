@@ -32,7 +32,8 @@ function App() {
         cancelScheduledNotification(tempTag).catch(console.error);
         dispatch(updateSimpleSetting({ settingsKey: 'supportsNotifications', value: true }));
       })
-      .catch(() => {
+      .catch((e) => {
+        console.error(e);
         dispatch(updateSimpleSetting({ settingsKey: 'supportsNotifications', value: false }));
       });
   // eslint-disable-next-line react-hooks/exhaustive-deps
