@@ -25,7 +25,7 @@ function TodoItemReminder({ todo }) {
         );
       })
       .catch(console.error);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!allowed) {
@@ -43,21 +43,18 @@ function TodoItemReminder({ todo }) {
           const tag = uuid();
           const timestamp = DateTime.fromISO(time).toMillis();
           createScheduledNotification(tag, title, timestamp)
-            .then((result) => {
-              if (result) {
-                dispatch(
-                  addReminder({
-                    id,
-                    tag,
-                    timestamp,
-                  })
-                );
-              } else {
-                alert('Error setting up notification');
-              }
+            .then(() => {
+              dispatch(
+                addReminder({
+                  id,
+                  tag,
+                  timestamp,
+                })
+              );
             })
             .catch((e) => {
               console.error(e);
+              alert(`Error adding notification. ${e.message}`);
             });
         }}
       />

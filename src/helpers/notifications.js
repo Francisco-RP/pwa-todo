@@ -16,8 +16,8 @@ export const createScheduledNotification = async (tag, title, timestamp) => {
         data: {
           url: window.location.href, // pass the current url to the notification
         },
-        // badge: './assets/badge.png',
-        // icon: './assets/icon.png',
+        badge: 'logo192.png',
+        icon: 'logo192.png',
         actions: [
           {
             action: 'open',
@@ -29,11 +29,11 @@ export const createScheduledNotification = async (tag, title, timestamp) => {
           },
         ],
       });
-      return true;
     } else {
-      return false;
+      throw new Error('Notification permission denied');
     }
   }
+  throw new Error('Notification.showTrigger not supported');
 };
 
 /**
@@ -47,5 +47,7 @@ export const cancelScheduledNotification = async (tag) => {
       includeTriggered: true,
     });
     notifications.forEach((notification) => notification.close());
+  } else {
+    throw new Error('Notification.showTrigger not supported');
   }
 };

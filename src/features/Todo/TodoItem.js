@@ -1,5 +1,5 @@
 import { useState, forwardRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { debounce } from 'lodash-es';
 import { Row, Col, Form, Button, InputGroup } from 'react-bootstrap';
 import classNames from 'classnames';
@@ -8,6 +8,7 @@ import { TODO_STATUS } from 'features/Todo/TodoModel';
 import TodoItemReminder from 'components/TodoItemReminder';
 import ContentEditable from 'components/ContentEditable';
 import { cancelScheduledNotification } from 'helpers/notifications';
+import { selectSupportsNotifications } from 'redux/settingsSlice';
 import styles from 'features/Todo/TodoItem.module.css';
 
 const { DONE, OPEN } = TODO_STATUS;
@@ -17,6 +18,7 @@ function TodoItem({ todo, onDeleteItem = () => {}, ...props }, ref) {
   const dispatch = useDispatch();
   const [showSettings, setShowSettings] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const supportsNotify = useSelector(selectSupportsNotifications);
 
   const debouncedUpdate = debounce((title) => {
     dispatch(updateTodo({ id, title }));
@@ -77,7 +79,7 @@ function TodoItem({ todo, onDeleteItem = () => {}, ...props }, ref) {
             />
           )}
 
-          {!isDone && (
+          {!isDone && supportsNotify && (
             <Button
               variant="link"
               title="add reminder"

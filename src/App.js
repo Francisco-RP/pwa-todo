@@ -1,13 +1,15 @@
 import { useEffect } from 'react';
+import { DateTime } from 'luxon';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import styles from './App.module.css';
 import NetworkStatus from 'components/NetworkStatus';
 import HomePage from 'pages/Home';
 import SettingsPage from 'pages/Settings';
-import { selectDarkMode } from 'redux/settingsSlice';
+import { selectDarkMode, updateSimpleSetting } from 'redux/settingsSlice';
 import Navbar from 'components/Navbar';
 import { Container } from 'react-bootstrap';
+import { createScheduledNotification, cancelScheduledNotification } from 'helpers/notifications';
 
 /**
  * Note: using HashRouter instead of BrowserRouter because Github pages does not support pushState
@@ -16,6 +18,25 @@ import { Container } from 'react-bootstrap';
 
 function App() {
   const darkMode = useSelector(selectDarkMode);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    /**
+     * Testing whether we can use scheduled notifications by trying to create one. If successful
+     * then we quickly cancel it
+     */
+    const tempTag = `test-reminder-${Date.now()}`;
+    const timestamp = DateTime.now().plus({ minutes: 1 }).toMillis();
+    createScheduledNotification(tempTag, 'test scheduled reminder', timestamp)
+      .then(() => {
+        cancelScheduledNotification(tempTag).catch(console.error);
+        dispatch(updateSimpleSetting({ settingsKey: 'supportsNotifications', value: true }));
+      })
+      .catch(() => {
+        dispatch(updateSimpleSetting({ settingsKey: 'supportsNotifications', value: false }));
+      });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (darkMode === 'on') {
