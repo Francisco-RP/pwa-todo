@@ -33,3 +33,10 @@ body .form-control {
   color: var(--bs-body-color);
   background-color: var(--bs-body-bg);
 }
+
+body .form-check-input {
+  background-color: var(--bs-body-bg);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--bs-body-color);
+}

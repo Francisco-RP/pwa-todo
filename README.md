@@ -2,11 +2,11 @@
 
 this is an idea I've had for a while. I want a todo list app that you can also set reminders. The reminder will show a notification to the user
 
-- needs to work offline
-- set "reminders" that schedule future local notifications
-- persist data
-- show online/offline status
-- implement Dark Mode based on system preference but allow override in settings
+- [ ] needs to work offline
+- [ ] set "reminders" that schedule future local notifications
+- [ ] persist data
+- [ ] show online/offline status
+- [ ] implement Dark Mode based on system preference but allow override in settings
 
 Nice to have:
 - connect to an external storage to persist data across clients
@@ -21,14 +21,14 @@ I created a checklist based on the talk given in this post/video: https://firt.d
 - [x] App Assets are in Cache storage
 - [x] Using persistent storage like localStorage or IndexedDB
 - [x] Non-iOS need to request access to persistent storage using: `await navigator.storage.persist()` - [compatibility](https://developer.mozilla.org/en-US/docs/Web/API/StorageManager/persist#browser_compatibility) - see [`requestPersistentStorage` in `helpers/pwa`](src/helpers/pwa.js)
-- [ ] **Android** Icon: add a 512x512 maskable icon. Use https://maskable.app to help
-  - [ ] make usre you add `"purpose": "maskable"` in the manifest for that icon (see [below](#android-maskable-icon))
-- [ ] **Safari** - if you are providing only one icon for Apple it should be `180x180` png and non-transparent
+- [x] **Android** Icon: add a 512x512 maskable icon. Use https://maskable.app to help
+  - [x] make usre you add `"purpose": "maskable"` in the manifest for that icon (see [below](#android-maskable-icon))
+- [x] **Safari** - if you are providing only one icon for Apple it should be `180x180` png and non-transparent
 - [x] **Safari** ignores icons in manifest, use: `<link rel="apple-touch-icon" href="" />`
 - [x] **iOS** Do <u>NOT</u> use the deprecated `<meta name="apple-mobile-web-app-capable" content="yes" />`
-- [ ] **iOS** Improve installation reliability by preloading manifest and icon. see [`iosReliableInstall` in `helpers/pwa`](src/helpers/pwa.js)
+- [x] **iOS** Improve installation reliability by preloading manifest and icon. see [`iosReliableInstall` in `helpers/pwa`](src/helpers/pwa.js)
 - [ ] **iOS** - Add a splash screen! See [splash screen section](#splash-screens) below
-- [ ] **Android** - start supporting the Enhanced Installation Banner, [see below](#android-enhanced-installation)
+- [x] **Android** - start supporting the Enhanced Installation Banner, [see below](#android-enhanced-installation)
 
 optional
 - [ ] **Chromium** based browsers allow you to customize the install UI by using the `beforeinstallprompt` event: https://web.dev/customize-install/
@@ -71,10 +71,10 @@ Available in Android Chrome 90+, an enhanced installation banner. Read more abou
 
 In order to get this experience you need to have the manifest include:
 
-- name: https://web.dev/add-manifest/#name
-- at least one icon: https://web.dev/add-manifest/#icons
-- description: https://web.dev/add-manifest/#description
-- app screenshots: https://web.dev/add-manifest/#description
+- [x] name: https://web.dev/add-manifest/#name
+- [x] at least one icon: https://web.dev/add-manifest/#icons
+- [x] description: https://web.dev/add-manifest/#description
+- [x] app screenshots: https://web.dev/add-manifest/#description
 
 ------
 

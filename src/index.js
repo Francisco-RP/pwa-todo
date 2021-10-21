@@ -8,6 +8,7 @@ import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './redux/store';
+import { iosReliableInstall } from 'helpers/pwa';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -24,3 +25,5 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA
 serviceWorkerRegistration.register();
+
+iosReliableInstall();

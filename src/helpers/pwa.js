@@ -101,8 +101,7 @@ export function iosReliableInstall() {
       })
       .catch(console.error);
 
-    // TODO: update icon.png to my iOS 180x180 icon when ready
-    fetch('icon.png')
+    fetch('logo180.png')
       .then((r) => r.blob())
       .then((blob) => {
         const reader = new FileReader();
@@ -118,7 +117,7 @@ export function iosReliableInstall() {
 export function getPWADisplayMode() {
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
   if (document.referrer.startsWith('android-app://')) {
-    return 'twa';
+    return 'pwa';
   } else if (navigator.standalone || isStandalone) {
     return 'standalone';
   }
