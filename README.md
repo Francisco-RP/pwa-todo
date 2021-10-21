@@ -3,10 +3,13 @@
 this is an idea I've had for a while. I want a todo list app that you can also set reminders. The reminder will show a notification to the user
 
 - needs to work offline
-- connect to an external storage (probably something like Firebase)
-- sync with external storage when back online
-- have a todo list with the ability to set reminders
-- notifications
+- set "reminders" that schedule future local notifications
+- persist data
+- show online/offline status
+- implement Dark Mode based on system preference but allow override in settings
+
+Nice to have:
+- connect to an external storage to persist data across clients
 
 ---
 
@@ -94,3 +97,5 @@ About the new background sync API: https://developers.google.com/web/updates/201
 Custom install prompt UI patterns: https://web.dev/promote-install/
 
 https://javascript.plainenglish.io/creating-a-browser-agnostic-pwa-install-button-41039f312fbe
+
+Good article about adding a dark theme to your site: https://css-tricks.com/a-complete-guide-to-dark-mode-on-the-web/

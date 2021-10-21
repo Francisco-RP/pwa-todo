@@ -24,7 +24,7 @@ function SettingsPage() {
           <h1>Settings</h1>
         </Col>
       </Row>
-      <Row>
+      <Row className="mt-4">
         <Col>Allow notifications</Col>
         <Col xs="auto">
           <Form.Check
@@ -45,6 +45,64 @@ function SettingsPage() {
               }
             }}
           />
+        </Col>
+      </Row>
+      <Row className="mt-4">
+        <Col>Dark Mode</Col>
+        <Col xs="auto">
+          <fieldset>
+            <Form.Check
+              inline
+              type="radio"
+              id="darkMode-on"
+              name="darkMode"
+              label="on"
+              checked={allSettings.darkMode === 'on'}
+              value="on"
+              onChange={(e) => {
+                dispatch(
+                  updateSimpleSetting({
+                    settingsKey: 'darkMode',
+                    value: 'on',
+                  })
+                );
+              }}
+            />
+            <Form.Check
+              inline
+              type="radio"
+              id="darkMode-off"
+              name="darkMode"
+              label="off"
+              checked={allSettings.darkMode === 'off'}
+              value="off"
+              onChange={(e) => {
+                dispatch(
+                  updateSimpleSetting({
+                    settingsKey: 'darkMode',
+                    value: 'off',
+                  })
+                );
+              }}
+            />
+            <Form.Check
+              inline
+              type="radio"
+              id="darkMode-system"
+              name="darkMode"
+              label="OS"
+              checked={allSettings.darkMode === 'system'}
+              value="system"
+              onChange={(e) => {
+                dispatch(
+                  updateSimpleSetting({
+                    settingsKey: 'darkMode',
+                    value: 'system',
+                  })
+                );
+              }}
+            />
+          </fieldset>
         </Col>
       </Row>
     </Container>
