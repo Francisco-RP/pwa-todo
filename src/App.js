@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styles from './App.module.css';
 import NetworkStatus from 'components/NetworkStatus';
@@ -8,6 +8,11 @@ import SettingsPage from 'pages/Settings';
 import { selectDarkMode } from 'redux/settingsSlice';
 import Navbar from 'components/Navbar';
 import { Container } from 'react-bootstrap';
+
+/**
+ * Note: using HashRouter instead of BrowserRouter because Github pages does not support pushState
+ * https://create-react-app.dev/docs/deployment/#notes-on-client-side-routing
+ */
 
 function App() {
   const darkMode = useSelector(selectDarkMode);
