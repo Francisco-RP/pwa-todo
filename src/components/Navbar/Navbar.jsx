@@ -1,5 +1,7 @@
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import logo from 'assets/logo512.png';
+import styles from './Navbar.module.css';
 
 function OurNavbar({ darkMode }) {
   let bg = 'light';
@@ -15,6 +17,7 @@ function OurNavbar({ darkMode }) {
     <Navbar bg={bg} variant={variant} expand="md" className="mb-2">
       <Container>
         <Navbar.Brand as={Link} to="/">
+          <img className={styles.logo} src={logo} alt="" />
           Todo+
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="todo-nav" />

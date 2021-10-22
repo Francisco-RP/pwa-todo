@@ -2,14 +2,21 @@ import { useEffect } from 'react';
 import { DateTime } from 'luxon';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import styles from './App.module.css';
+import { Container } from 'react-bootstrap';
+
+// components
 import NetworkStatus from 'components/NetworkStatus';
+import Navbar from 'components/Navbar/Navbar';
+
+// pages
 import HomePage from 'pages/Home';
 import SettingsPage from 'pages/Settings';
-import { selectDarkMode, updateSimpleSetting } from 'redux/settingsSlice';
-import Navbar from 'components/Navbar';
-import { Container } from 'react-bootstrap';
+
+// redux, helpers, styles, etc
+import { selectDarkMode, updateSetting } from 'redux/settingsSlice';
+import { clearPastReminders } from 'features/Todo/todoSlice';
 import { createScheduledNotification, cancelScheduledNotification } from 'helpers/notifications';
+import styles from './App.module.css';
 
 /**
  * Note: using HashRouter instead of BrowserRouter because Github pages does not support pushState
@@ -21,6 +28,8 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(clearPastReminders());
+
     /**
      * Testing whether we can use scheduled notifications by trying to create one. If successful
      * then we quickly cancel it
@@ -30,13 +39,18 @@ function App() {
     createScheduledNotification(tempTag, 'test scheduled reminder', timestamp)
       .then(() => {
         cancelScheduledNotification(tempTag).catch(console.error);
-        dispatch(updateSimpleSetting({ settingsKey: 'allowNotification', value: true }));
+        dispatch(updateSetting({ supportsNotifications: true, allowNotification: true }));
       })
       .catch((e) => {
-        console.error('App.js', e);
-        dispatch(updateSimpleSetting({ settingsKey: 'allowNotification', value: false }));
+        console.error('App.js createScheduledNotification:', e);
+        // if permission is not granted then we don't know if notifications are not supported yet
+        if (e.message.includes('permission')) {
+          dispatch(updateSetting({ allowNotification: false }));
+        } else {
+          dispatch(updateSetting({ supportsNotifications: false }));
+        }
       });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

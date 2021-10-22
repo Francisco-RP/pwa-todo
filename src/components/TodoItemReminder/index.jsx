@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addReminder, removeReminder } from 'features/Todo/todoSlice';
-import { selectAllowNotifications } from 'redux/settingsSlice';
+import { selectAllowNotifications, selectSupportsNotifications } from 'redux/settingsSlice';
 import Button from 'react-bootstrap/Button';
 import DatePicker from 'components/DatePicker/DatePicker';
 import { createScheduledNotification, cancelScheduledNotification } from 'helpers/notifications';
@@ -13,11 +13,20 @@ function TodoItemReminder({ todo }) {
   const { id, title, reminders = [] } = todo;
   const dispatch = useDispatch();
   const allowed = useSelector(selectAllowNotifications);
+  const supported = useSelector(selectSupportsNotifications);
 
-  if (!allowed) {
+  if (!supported) {
     return (
       <div className={styles.settingsWrap}>
-        <p>
+        <p className="m-0">We're sorry, your platform does not currently support scheduled notifications</p>
+      </div>
+    );
+  }
+
+  if (!allowed || !supported) {
+    return (
+      <div className={styles.settingsWrap}>
+        <p className="m-0">
           Notifications have been disabled. Enable them in <Link to="/settings">settings</Link>
         </p>
       </div>

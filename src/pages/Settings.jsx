@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Row, Col, Form } from 'react-bootstrap';
-import { updateSimpleSetting } from 'redux/settingsSlice';
+import { updateSetting } from 'redux/settingsSlice';
 
 function SettingsPage() {
   const dispatch = useDispatch();
@@ -9,9 +9,8 @@ function SettingsPage() {
   function requestPermission() {
     Notification.requestPermission().then((permission) => {
       dispatch(
-        updateSimpleSetting({
-          settingsKey: 'allowNotification',
-          value: permission === 'granted',
+        updateSetting({
+          allowNotification: permission === 'granted',
         })
       );
     });
@@ -36,12 +35,7 @@ function SettingsPage() {
               if (e.target.checked) {
                 requestPermission();
               } else {
-                dispatch(
-                  updateSimpleSetting({
-                    settingsKey: 'allowNotification',
-                    value: false,
-                  })
-                );
+                dispatch(updateSetting({ allowNotification: false }));
               }
             }}
           />
@@ -60,12 +54,7 @@ function SettingsPage() {
               checked={allSettings.darkMode === 'on'}
               value="on"
               onChange={(e) => {
-                dispatch(
-                  updateSimpleSetting({
-                    settingsKey: 'darkMode',
-                    value: 'on',
-                  })
-                );
+                dispatch(updateSetting({ darkMode: 'on' }));
               }}
             />
             <Form.Check
@@ -77,12 +66,7 @@ function SettingsPage() {
               checked={allSettings.darkMode === 'off'}
               value="off"
               onChange={(e) => {
-                dispatch(
-                  updateSimpleSetting({
-                    settingsKey: 'darkMode',
-                    value: 'off',
-                  })
-                );
+                dispatch(updateSetting({ darkMode: 'off' }));
               }}
             />
             <Form.Check
@@ -94,12 +78,7 @@ function SettingsPage() {
               checked={allSettings.darkMode === 'system'}
               value="system"
               onChange={(e) => {
-                dispatch(
-                  updateSimpleSetting({
-                    settingsKey: 'darkMode',
-                    value: 'system',
-                  })
-                );
+                dispatch(updateSetting({ darkMode: 'system' }));
               }}
             />
           </fieldset>

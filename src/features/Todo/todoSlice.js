@@ -73,6 +73,16 @@ export const todoSlice = createSlice({
         }
       }
     },
+
+    clearPastReminders: (state) => {
+      state.items.forEach((item) => {
+        if (item.reminders.length > 0) {
+          item.reminders = item.reminders.filter(({ timestamp }) => {
+            return timestamp > Date.now();
+          });
+        }
+      });
+    },
   },
 });
 
@@ -85,6 +95,7 @@ export const {
   reorder,
   addReminder,
   removeReminder,
+  clearPastReminders
 } = todoSlice.actions;
 
 export const selectTodos = (state) => state.todos.present.items;

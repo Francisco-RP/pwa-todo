@@ -3,10 +3,13 @@ import { useDispatch } from 'react-redux';
 import { debounce } from 'lodash-es';
 import { Row, Col, Form, Button, InputGroup } from 'react-bootstrap';
 import classNames from 'classnames';
+
 import { removeTodo, completeTodo, openTodo, updateTodo } from 'features/Todo/todoSlice';
 import { TODO_STATUS } from 'features/Todo/TodoModel';
+
 import TodoItemReminder from 'components/TodoItemReminder';
 import ContentEditable from 'components/ContentEditable';
+
 import { cancelScheduledNotification } from 'helpers/notifications';
 import styles from 'features/Todo/TodoItem.module.css';
 
@@ -79,7 +82,7 @@ function TodoItem({ todo, onDeleteItem = () => {}, ...props }, ref) {
 
           {!isDone && (
             <Button
-              variant="link"
+              variant={showSettings ? "primary" : "link"}
               title="add reminder"
               onClick={() => {
                 setShowSettings(!showSettings);
@@ -99,6 +102,7 @@ function TodoItem({ todo, onDeleteItem = () => {}, ...props }, ref) {
               todo.reminders?.forEach((todo) => {
                 cancelScheduledNotification(todo.tag).catch(console.error);
               });
+              // 500ms to allow the css animation to complete
               setTimeout(() => {
                 dispatch(removeTodo(id));
               }, 500);

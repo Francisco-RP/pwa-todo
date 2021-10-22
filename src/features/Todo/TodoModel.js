@@ -24,9 +24,8 @@ export function createTodo(title) {
 }
 
 export function modifyTodo(todo, properties) {
-  return {
-    ...todo,
-    ...properties,
-    modified: new Date().toISOString(),
-  };
+  Object.keys(properties).forEach((key) => {
+    todo[key] = properties[key];
+  });
+  todo.modified = new Date().toISOString();
 }

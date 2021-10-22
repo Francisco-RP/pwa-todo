@@ -4,6 +4,9 @@
  * @param {number} timestamp Date.now()
  */
 export const createScheduledNotification = async (tag, title, timestamp) => {
+  if (!('showTrigger' in Notification.prototype)) {
+    throw new Error('Scheduled notifications not supported');
+  }
   const registration = await navigator.serviceWorker.getRegistration();
   const permission = await Notification.requestPermission();
   if (permission === 'granted') {
