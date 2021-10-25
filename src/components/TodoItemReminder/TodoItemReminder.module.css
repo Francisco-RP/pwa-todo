@@ -1,8 +1,9 @@
 .settingsWrap {
   padding: 1rem;
-  background-color: lightgrey;
-  border-radius: 0 0 6px 6px;
+  background-color: rgba(200, 220, 237, 0.5);
+  border-radius: 6px;
   margin-top: 4px;
+  position: relative;
 }
 
 .list {
@@ -14,4 +15,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.close {
+  position: absolute;
+  right: 5px;
+  top: 5px;
 }

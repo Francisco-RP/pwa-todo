@@ -1,7 +1,7 @@
 import { useState, forwardRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { debounce } from 'lodash-es';
-import { Row, Col, Form, Button, InputGroup } from 'react-bootstrap';
+import { Row, Col, Form, InputGroup } from 'react-bootstrap';
 import classNames from 'classnames';
 
 import { removeTodo, completeTodo, openTodo, updateTodo } from 'features/Todo/todoSlice';
@@ -9,6 +9,7 @@ import { TODO_STATUS } from 'features/Todo/TodoModel';
 
 import TodoItemReminder from 'components/TodoItemReminder';
 import ContentEditable from 'components/ContentEditable';
+import OverflowMenu from 'components/OverflowMenu';
 
 import { cancelScheduledNotification } from 'helpers/notifications';
 import styles from 'features/Todo/TodoItem.module.css';
@@ -20,7 +21,7 @@ function TodoItem({ todo, onDeleteItem = () => {}, ...props }, ref) {
   const dispatch = useDispatch();
   const [showSettings, setShowSettings] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  
+
   const debouncedUpdate = debounce((title) => {
     dispatch(updateTodo({ id, title }));
   }, 1000);
@@ -29,7 +30,29 @@ function TodoItem({ todo, onDeleteItem = () => {}, ...props }, ref) {
     debouncedUpdate(e.currentTarget.textContent);
   }
 
+  function deleteItem() {
+    setIsDeleting(true);
+    onDeleteItem(id);
+    todo.reminders?.forEach((todo) => {
+      cancelScheduledNotification(todo.tag).catch(console.error);
+    });
+    // 500ms to allow the css animation to complete
+    setTimeout(() => {
+      dispatch(removeTodo(id));
+    }, 500);
+  }
+
   const isDone = status === DONE;
+
+  const overflowMenuItems = [{ name: 'delete', onSelect: deleteItem }];
+  if (!isDone) {
+    overflowMenuItems.unshift({
+      name: 'reminders',
+      onSelect: () => {
+        setShowSettings(true);
+      },
+    });
+  }
 
   return (
     <Row
@@ -79,43 +102,12 @@ function TodoItem({ todo, onDeleteItem = () => {}, ...props }, ref) {
               text={title}
             />
           )}
-
-          {!isDone && (
-            <Button
-              variant={showSettings ? "primary" : "link"}
-              title="add reminder"
-              onClick={() => {
-                setShowSettings(!showSettings);
-              }}
-            >
-              <i className="bi bi-bell" />
-              <span className="visually-hidden">add reminder</span>
-            </Button>
-          )}
-          <Button
-            className={styles.remove}
-            title="delete"
-            variant="link"
-            onClick={() => {
-              setIsDeleting(true);
-              onDeleteItem(id);
-              todo.reminders?.forEach((todo) => {
-                cancelScheduledNotification(todo.tag).catch(console.error);
-              });
-              // 500ms to allow the css animation to complete
-              setTimeout(() => {
-                dispatch(removeTodo(id));
-              }, 500);
-            }}
-          >
-            <i className="bi bi-trash" />
-            <span className="visually-hidden">delete</span>
-          </Button>
+          <OverflowMenu id={`todo-options-${id}`} items={overflowMenuItems} />
         </InputGroup>
       </Col>
       {showSettings && (
         <Col xs={12}>
-          <TodoItemReminder todo={todo} />
+          <TodoItemReminder todo={todo} onClose={() => setShowSettings(false)} />
         </Col>
       )}
     </Row>

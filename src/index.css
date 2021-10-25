@@ -40,3 +40,9 @@ body .form-check-input {
   border-style: solid;
   border-color: var(--bs-body-color);
 }
+
+.btn-reset {
+  appearance: none;
+  background: none;
+  border: none;
+}

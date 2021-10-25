@@ -23,6 +23,7 @@ function ContentEditable({ text, onChange, label, ...props }) {
       contentEditable="true"
       suppressContentEditableWarning={true}
       onInput={onChange}
+      style={{ cursor: 'text' }}
       {...props}
     >
       {text}

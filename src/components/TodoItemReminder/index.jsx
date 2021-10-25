@@ -11,7 +11,7 @@ import DatePicker from 'components/DatePicker';
 import { createScheduledNotification, cancelScheduledNotification } from 'helpers/notifications';
 import styles from 'components/TodoItemReminder/TodoItemReminder.module.css';
 
-function TodoItemReminder({ todo }) {
+function TodoItemReminder({ todo, onClose }) {
   const { id, title, reminders = [] } = todo;
   const dispatch = useDispatch();
   const allowed = useSelector(selectAllowNotifications);
@@ -46,9 +46,17 @@ function TodoItemReminder({ todo }) {
     };
   };
 
+  const closeBtn = (
+    <button type="button" className={`btn-reset ${styles.close}`} onClick={onClose}>
+      <i className="bi bi-x-lg" />
+      <span className="visually-hidden">close</span>
+    </button>
+  );
+
   if (!supported) {
     return (
       <div className={styles.settingsWrap}>
+        {closeBtn}
         <p className="m-0">
           We're sorry, your platform does not currently support scheduled notifications
         </p>
@@ -59,6 +67,7 @@ function TodoItemReminder({ todo }) {
   if (!allowed || !supported) {
     return (
       <div className={styles.settingsWrap}>
+        {closeBtn}
         <p className="m-0">
           Notifications have been disabled. Enable them in <Link to="/settings">settings</Link>
         </p>
@@ -68,6 +77,7 @@ function TodoItemReminder({ todo }) {
 
   return (
     <div className={styles.settingsWrap}>
+      {closeBtn}
       <DatePicker required onTimeAccepted={scheduleReminder} />
       {reminders.length > 0 && (
         <div>
