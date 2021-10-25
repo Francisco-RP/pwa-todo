@@ -17,10 +17,41 @@ function TodoItemReminder({ todo }) {
   const allowed = useSelector(selectAllowNotifications);
   const supported = useSelector(selectSupportsNotifications);
 
+  const scheduleReminder = (time) => {
+    if (!time) return;
+    const tag = uuid();
+    const timestamp = DateTime.fromISO(time).toMillis();
+    createScheduledNotification(tag, title, timestamp)
+      .then(() => {
+        dispatch(
+          addReminder({
+            id,
+            tag,
+            timestamp,
+          })
+        );
+      })
+      .catch((e) => {
+        console.error(e);
+        alert(`Error adding notification. ${e.message}`);
+      });
+  };
+
+  const deleteReminder = (tag) => {
+    return () => {
+      dispatch(removeReminder({ id, tag }));
+      cancelScheduledNotification(tag).catch((e) => {
+        console.error(e);
+      });
+    };
+  };
+
   if (!supported) {
     return (
       <div className={styles.settingsWrap}>
-        <p className="m-0">We're sorry, your platform does not currently support scheduled notifications</p>
+        <p className="m-0">
+          We're sorry, your platform does not currently support scheduled notifications
+        </p>
       </div>
     );
   }
@@ -37,28 +68,7 @@ function TodoItemReminder({ todo }) {
 
   return (
     <div className={styles.settingsWrap}>
-      <DatePicker
-        required
-        onTimeAccepted={(time) => {
-          if (!time) return;
-          const tag = uuid();
-          const timestamp = DateTime.fromISO(time).toMillis();
-          createScheduledNotification(tag, title, timestamp)
-            .then(() => {
-              dispatch(
-                addReminder({
-                  id,
-                  tag,
-                  timestamp,
-                })
-              );
-            })
-            .catch((e) => {
-              console.error(e);
-              alert(`Error adding notification. ${e.message}`);
-            });
-        }}
-      />
+      <DatePicker required onTimeAccepted={scheduleReminder} />
       {reminders.length > 0 && (
         <div>
           <p className="mb-0 mt-4 fw-bold">Scheduled reminders:</p>
@@ -69,12 +79,7 @@ function TodoItemReminder({ todo }) {
                 <Button
                   variant="secondary"
                   className="rounded-circle"
-                  onClick={() => {
-                    dispatch(removeReminder({ id, tag: r.tag }));
-                    cancelScheduledNotification(r.tag).catch((e) => {
-                      console.error(e);
-                    });
-                  }}
+                  onClick={deleteReminder(r.tag)}
                 >
                   <i className="bi bi-x-lg" />
                   <span className="visually-hidden">delete this reminder</span>
