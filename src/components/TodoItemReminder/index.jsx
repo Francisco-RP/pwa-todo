@@ -2,10 +2,12 @@ import { v4 as uuid } from 'uuid';
 import { DateTime } from 'luxon';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import Button from 'react-bootstrap/Button';
+
 import { addReminder, removeReminder } from 'features/Todo/todoSlice';
 import { selectAllowNotifications, selectSupportsNotifications } from 'redux/settingsSlice';
-import Button from 'react-bootstrap/Button';
-import DatePicker from 'components/DatePicker/DatePicker';
+
+import DatePicker from 'components/DatePicker';
 import { createScheduledNotification, cancelScheduledNotification } from 'helpers/notifications';
 import styles from 'components/TodoItemReminder/TodoItemReminder.module.css';
 
