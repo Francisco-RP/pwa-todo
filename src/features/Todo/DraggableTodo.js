@@ -14,11 +14,18 @@ function DraggableTodo({ todo, index, ...props }) {
 
     if (isDragging) {
       styles.userSelect = 'none';
-      styles.border = '1px solid lightgreen'
     }
 
     if (status === DONE) {
       styles.display = 'none';
+    }
+
+    // restrict dragging to only vertical by overriding the transform that powers the dragging
+    if (styles.transform) {
+      const re = /translate\(([^)]+)\)/i;
+      const [, xY] = styles.transform.match(re);
+      const [,y] = xY.split(', ').map(val => parseFloat(val, 10));
+      styles.transform = `translate(0px, ${y}px)`;
     }
 
     return styles;
