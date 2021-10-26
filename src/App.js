@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { DateTime } from 'luxon';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container } from 'react-bootstrap';
@@ -13,9 +12,9 @@ import HomePage from 'pages/Home';
 import SettingsPage from 'pages/Settings';
 
 // redux, helpers, styles, etc
-import { selectDarkMode, updateSetting } from 'redux/settingsSlice';
+import useCheckNotification from 'hooks/useCheckNotification';
+import { selectDarkMode } from 'redux/settingsSlice';
 import { clearPastReminders } from 'features/Todo/todoSlice';
-import { createScheduledNotification, cancelScheduledNotification } from 'helpers/notifications';
 import styles from './App.module.css';
 
 /**
@@ -27,29 +26,10 @@ function App() {
   const darkMode = useSelector(selectDarkMode);
   const dispatch = useDispatch();
 
+  useCheckNotification();
+
   useEffect(() => {
     dispatch(clearPastReminders());
-
-    /**
-     * Testing whether we can use scheduled notifications by trying to create one. If successful
-     * then we quickly cancel it
-     */
-    const tempTag = `test-reminder-${Date.now()}`;
-    const timestamp = DateTime.now().plus({ minutes: 1 }).toMillis();
-    createScheduledNotification(tempTag, 'test scheduled reminder', timestamp)
-      .then(() => {
-        cancelScheduledNotification(tempTag).catch(console.error);
-        dispatch(updateSetting({ supportsNotifications: true, allowNotification: true }));
-      })
-      .catch((e) => {
-        console.error('App.js createScheduledNotification:', e);
-        // if permission is not granted then we don't know if notifications are not supported yet
-        if (e.message.includes('permission')) {
-          dispatch(updateSetting({ allowNotification: false }));
-        } else {
-          dispatch(updateSetting({ supportsNotifications: false }));
-        }
-      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

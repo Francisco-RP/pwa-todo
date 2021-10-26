@@ -11,7 +11,7 @@ export const createScheduledNotification = async (tag, title, timestamp) => {
   const permission = await Notification.requestPermission();
   if (permission === 'granted') {
     registration.showNotification(title, {
-      tag: tag,
+      tag,
       body: 'This notification was scheduled 30 seconds ago',
       showTrigger: new window.TimestampTrigger(timestamp + 30 * 1000),
 
@@ -42,8 +42,9 @@ export const createScheduledNotification = async (tag, title, timestamp) => {
 export const cancelScheduledNotification = async (tag) => {
   const registration = await navigator.serviceWorker.getRegistration();
   const notifications = await registration.getNotifications({
-    tag: tag,
+    tag,
     includeTriggered: true,
   });
+  console.log(`🚀 ~ file: notifications.js ~ line 48 ~ cancelScheduledNotification ~ notifications`, notifications);
   notifications.forEach((notification) => notification.close());
 };
