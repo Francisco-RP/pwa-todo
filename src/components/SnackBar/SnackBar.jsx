@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import styles from 'components/SnackBar/SnackBar.module.css';
+import { Icon } from 'components/Utils';
 
 function SnackBar({ title, actionTitle, action, onClose }) {
   useEffect(() => {
@@ -21,7 +22,7 @@ function SnackBar({ title, actionTitle, action, onClose }) {
           )}
 
           <button type="button" className={styles.close} onClick={onClose}>
-            <i className="bi bi-x-lg" />
+            <Icon name="x-lg" />
             <span className="visually-hidden">close</span>
           </button>
         </div>

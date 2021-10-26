@@ -2,11 +2,11 @@
 
 this is an idea I've had for a while. I want a todo list app that you can also set reminders. The reminder will show a notification to the user
 
-- [ ] needs to work offline
-- [ ] set "reminders" that schedule future local notifications
-- [ ] persist data
-- [ ] show online/offline status
-- [ ] implement Dark Mode based on system preference but allow override in settings
+- [x] needs to work offline
+- [x] set "reminders" that schedule future local notifications
+- [x] persist data
+- [x] show online/offline status
+- [x] implement Dark Mode based on system preference but allow override in settings
 
 Nice to have:
 - connect to an external storage to persist data across clients

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Form, InputGroup, Button } from 'react-bootstrap';
 import { DateTime } from 'luxon';
+import { Icon } from 'components/Utils';
 
 function getMinTime() {
   return DateTime.now().plus({ minutes: 1 }).toISO().split(':').slice(0, 2).join(':');
@@ -44,7 +45,7 @@ function DatePicker({ required, onTimeAccepted = () => {} }) {
         />
 
         <Button variant="primary" type="submit">
-          <i className="bi bi-plus-lg" />
+          <Icon name="plus-lg" />
           <span className="visually-hidden">add reminder</span>
         </Button>
       </InputGroup>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, InputGroup, Form } from 'react-bootstrap';
 import { addTodo } from 'features/Todo/todoSlice';
+import { Icon, VisuallyHidden } from 'components/Utils';
 
 function AddTodoForm() {
   const dispatch = useDispatch();
@@ -36,7 +37,8 @@ function AddTodoForm() {
           aria-describedby="basic-addon2"
         />
         <Button type="submit" variant="outline-primary" id="button-addon2">
-          <i className="bi bi-plus" />
+          <Icon name="plus-lg" />
+          <VisuallyHidden>add todo</VisuallyHidden>
         </Button>
       </InputGroup>
       <Form.Control.Feedback type="invalid" style={{ display: hasError ? 'block' : 'none' }}>

@@ -10,6 +10,7 @@ import { TODO_STATUS } from 'features/Todo/TodoModel';
 import TodoItemReminder from 'components/TodoItemReminder';
 import ContentEditable from 'components/ContentEditable';
 import OverflowMenu from 'components/OverflowMenu';
+import { Icon } from 'components/Utils';
 
 import { cancelScheduledNotification } from 'helpers/notifications';
 import styles from 'features/Todo/TodoItem.module.css';
@@ -44,9 +45,10 @@ function TodoItem({ todo, onDeleteItem = () => {}, ...props }, ref) {
 
   const isDone = status === DONE;
 
-  const overflowMenuItems = [{ name: 'delete', onSelect: deleteItem }];
+  const overflowMenuItems = [{ name: 'delete', onSelect: deleteItem, icon: 'trash' }];
   if (!isDone) {
     overflowMenuItems.unshift({
+      icon: 'bell',
       name: 'reminders',
       onSelect: () => {
         setShowSettings(true);
@@ -65,7 +67,7 @@ function TodoItem({ todo, onDeleteItem = () => {}, ...props }, ref) {
     >
       {status === OPEN && (
         <Col xs="auto" className={`align-items-center d-flex ${styles.grip}`}>
-          <i className="bi bi-grip-vertical" />
+          <Icon name="grip-vertical" />
         </Col>
       )}
       <Col xs="auto">

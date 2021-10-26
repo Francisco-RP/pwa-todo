@@ -9,6 +9,7 @@ import { selectAllowNotifications, selectSupportsNotifications } from 'redux/set
 
 import DatePicker from 'components/DatePicker';
 import { createScheduledNotification, cancelScheduledNotification } from 'helpers/notifications';
+import { Icon } from 'components/Utils';
 import styles from 'components/TodoItemReminder/TodoItemReminder.module.css';
 
 function TodoItemReminder({ todo, onClose }) {
@@ -48,7 +49,7 @@ function TodoItemReminder({ todo, onClose }) {
 
   const closeBtn = (
     <button type="button" className={`btn-reset ${styles.close}`} onClick={onClose}>
-      <i className="bi bi-x-lg" />
+      <Icon name="x-lg" />
       <span className="visually-hidden">close</span>
     </button>
   );
@@ -91,7 +92,7 @@ function TodoItemReminder({ todo, onClose }) {
                   className="rounded-circle"
                   onClick={deleteReminder(r.tag)}
                 >
-                  <i className="bi bi-x-lg" />
+                  <Icon name="x-lg" />
                   <span className="visually-hidden">delete this reminder</span>
                 </Button>
               </li>
